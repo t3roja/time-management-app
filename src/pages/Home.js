@@ -1,33 +1,31 @@
-import React from 'react'
-import { useState, useEffect } from 'react';
-import './Home.css'
-import ProjectList from '../components/ProjectList'
 
-const API_URL = process.env.REACT_APP_API_URL
+import { useState, useEffect } from 'react';
+import ProjectList from '../components/ProjectList'
+import { fetchProjects } from '../helpers/Api';
+
 
 export default function Home() {
+  
   const [projects, setProjects] = useState([])
 
-
   useEffect(() => {
-    fetchProjects()
-  }, []);
-
-  const fetchProjects = async () => {
-    try {
-    const response = await fetch(API_URL + '/projects')
-    const data = await response.json()
-    setProjects(data)
-    }
-    catch (error) {
-      console.error(error)
+    const getProjects = async () => {
+      try {
+      const data = await fetchProjects()
+      setProjects(data)
+      console.log("home", data)
+    } catch (error) {
+      console.log(error)
     }
   }
+  getProjects()
+  }, []);
+
+
   return (
-    <div className='ProjectContainer'>
-      <ProjectList projects={projects} setProjects={setProjects} />
-      {/* <CollapsibleTable projects={projects || []} /> */}
-    </div>
+    <>
+      <ProjectList projects={projects} setProjects={setProjects}/>
+    </>
   )
 }
 
