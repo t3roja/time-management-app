@@ -31,7 +31,6 @@ useEffect(() => {
 
   return (
     <Box sx={styles.mainBox}>
-      <p>HOME</p>
       <ProjectList projects={projects} setProjects={setProjects}/>
     </Box>
   )
