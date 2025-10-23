@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TextField, Button, Box, Typography } from '@mui/material';
 import { buttonStyles } from '../styles/ButtonStyles';
 import { styles } from '../styles/Styles';
@@ -10,6 +10,17 @@ export default function Login() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('access-token');
+    const client = localStorage.getItem('client');
+    const uid = localStorage.getItem('uid');
+
+    if (token && client && uid) {
+
+      navigate('/home');
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -24,14 +35,23 @@ export default function Login() {
 
     setLoading(true);
     try {
-      const response = await fetch(`${API_URL}/auth/sign_in`, {
+      const response = await fetch(API_URL + "/auth/sign_in", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
 
       if (response.ok) {
-        window.alert("Kirjautuminen onnistui!");
+        const accessToken = response.headers.get('access-token');
+        const client = response.headers.get('client');
+        const uid = response.headers.get('uid');
+        const data = await response.json();
+
+        localStorage.setItem('access-token', accessToken);
+        localStorage.setItem('client', client);
+        localStorage.setItem('uid', uid);
+        localStorage.setItem('isAdmin', data.data.admin)
+
         navigate('/home');
       } else {
         const data = await response.json();

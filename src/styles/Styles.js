@@ -1,4 +1,3 @@
-import { colors } from './Colors'
 
 export const styles = {
 
@@ -7,6 +6,15 @@ export const styles = {
         boxShadow: 2,
         transition: '0.3s',
         '&:hover': { boxShadow: 4 },
+    },
+    newCard: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        opacity: 0.8,
+        transition: '0.2s',
+        '&:hover': { opacity: 1, borderColor: 'primary.main', boxShadow: 3 },     
     },
     cardContent: {
         display: 'flex',
