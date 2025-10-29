@@ -22,7 +22,7 @@ export default function AddEntryForm({ entry }) {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (!form.date || !form.task || !form.hours) {
       return
     }
@@ -39,7 +39,7 @@ export default function AddEntryForm({ entry }) {
     });
 
     if (response.ok) {
-      navigate(-1); // palaa edelliseen
+      navigate(-1)
     } else {
       console.error('Virhe tallennettaessa entryä');
     }

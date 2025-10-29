@@ -53,13 +53,33 @@ const fetchOneProject = async (id) => {
 
         updateTokensFromResponse(response);
 
-        if (!response.ok) throw new Error("Virhe ladattaessa projektia");
         return await response.json()
     }
     catch (error) {
         console.error(error)
     }
 }
+
+const markAsComplete = async (project) => {
+
+    try {
+
+        const response = await fetch(API_URL + '/projects/' + project.id, {
+            method: "PATCH",
+            headers: {
+                'Content-Type': 'application/json',
+                'access-token': localStorage.getItem('access-token'),
+                'client': localStorage.getItem('client'),
+                'uid': localStorage.getItem('uid')
+            },
+            body: JSON.stringify({ project: { completed: !project.completed } })
+        });
+        return  response
+
+    } catch (error) {
+        console.error(error)
+    }
+};
 
 const fetchOneEntry = async (projectid, entryid) => {
     try {
@@ -84,29 +104,29 @@ const fetchOneEntry = async (projectid, entryid) => {
     }
 }
 
-  function isAdmin() {
+function isAdmin() {
     return localStorage.getItem('isAdmin');
 }
 
-    const fetchUsers = async () => {
-      try {
+const fetchUsers = async () => {
+    try {
         const response = await fetch(API_URL + '/api/users', {
-          headers: {
-            'Content-Type': 'application/json',
-            'access-token': localStorage.getItem('access-token'),
-            'client': localStorage.getItem('client'),
-            'uid': localStorage.getItem('uid'),
-          },
+            headers: {
+                'Content-Type': 'application/json',
+                'access-token': localStorage.getItem('access-token'),
+                'client': localStorage.getItem('client'),
+                'uid': localStorage.getItem('uid'),
+            },
         });
 
         if (!response.ok) throw new Error('Virhe käyttäjien haussa');
         const data = await response.json();
         return data;
-      } catch (err) {
+    } catch (err) {
         console.error(err);
-      }
-    };
+    }
+};
 
 
 
-export { fetchProjects, fetchOneProject, fetchOneEntry, isAdmin, fetchUsers }
+export { fetchProjects, fetchOneProject, markAsComplete, fetchOneEntry, isAdmin, fetchUsers }

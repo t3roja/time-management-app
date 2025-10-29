@@ -7,6 +7,13 @@ export const styles = {
         transition: '0.3s',
         '&:hover': { boxShadow: 4 },
     },
+    completeCard: {
+        background: 'linear-gradient(to right bottom, #ffffffff, #82ffa1)',
+        borderRadius: 3,
+        boxShadow: 2,
+        transition: '0.3s',
+        '&:hover': { boxShadow: 4 },
+    },
     newCard: {
         display: 'flex',
         alignItems: 'center',
@@ -41,5 +48,6 @@ export const styles = {
         py: 0.5,
         borderBottom: '1px solid #eee',
         '&:hover': { backgroundColor: 'colors.secondary' },
+        cursor: 'pointer',
     }
 }
